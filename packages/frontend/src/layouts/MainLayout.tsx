@@ -23,7 +23,10 @@ function MainLayout() {
         </Link>
 
         {/* Login / Register / Profile */}
-        <div className="ml-auto p-8 flex-end my-auto">
+        <div className="p-8 flex-end ml-auto my-auto">
+          AUTH IS DISABLED
+        </div>
+        <div className="ml-auto p-8 flex-end my-auto hidden">
           {(isEmbedded)
             ? user?.name || "Loading..."
             : (isLoading)

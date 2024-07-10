@@ -1,17 +1,9 @@
 import { JWT, auth } from "@colyseus/auth";
-import { User } from "./database";
 import { resend } from "./email";
 
 /**
  * Email / Password Authentication
  */
-auth.settings.onFindUserByEmail = async (email) => {
-  console.log("@colyseus/auth: onFindByEmail =>", { email });
-  return await User.query()
-    .selectAll()
-    .where("email", "=", email)
-    .executeTakeFirst();
-};
 
 auth.settings.onRegisterWithEmailAndPassword = async (email, password, options) => {
   console.log("@colyseus/auth: onRegister =>", { email, password, ...options });
@@ -24,12 +16,7 @@ auth.settings.onRegisterWithEmailAndPassword = async (email, password, options) 
 
   const name = options.name || email.split("@")[0];
 
-  return await User.insert({
-    name,
-    email,
-    password,
-    ...additionalData,
-  });
+  return;
 }
 
 auth.settings.onSendEmailConfirmation = async (email, html, link) => {
@@ -51,7 +38,7 @@ auth.settings.onForgotPassword = async (email: string, html: string/* , resetLin
 }
 
 auth.settings.onResetPassword = async (email: string, password: string) => {
-  await User.update({ password }).where("email", "=", email).execute();
+  return;
 }
 
 /**
@@ -80,10 +67,5 @@ auth.oauth.onCallback(async (data, provider) => {
 });
 
 export function createUser(profile: any) {
-  return User.upsert({
-    discord_id: profile.id,
-    name: profile.global_name || profile.username || profile.login,
-    locale: profile.locale || "",
-    email: profile.email,
-  })
+  return;
 }
